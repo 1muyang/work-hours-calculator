@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#173f2c"><title>弹性C班工时计算器</title><style>html,body{margin:0;min-height:100%;background:#eef4f0}body{padding:0;-webkit-tap-highlight-color:transparent}</style></head><body><div id="work-hours-calculator-20260716" class="whc-shell">
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#104b31"><title>弹性C班工时计算器</title><style>html,body{margin:0;min-height:100%;max-width:100%;overflow-x:hidden;background:#eef4f0}body{padding:0;-webkit-tap-highlight-color:transparent}</style></head><body><div id="work-hours-calculator-20260716" class="whc-shell">
 <style>
 #work-hours-calculator-20260716{--ink:#17231d;--muted:#68756e;--line:#dce5df;--soft:#f4f8f5;--green:#18633f;--green2:#2f8760;--green-soft:#e6f4eb;--lime:#cbe968;--amber-soft:#fff4db;--red:#a33d35;--red-soft:#fff0ee;color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;width:100%}
 #work-hours-calculator-20260716 *{box-sizing:border-box}
@@ -105,7 +105,45 @@
 #work-hours-calculator-20260716 .leave-time{font-size:48px}
 #work-hours-calculator-20260716 .stat strong{font-size:14px}
 }
-@media(prefers-reduced-motion:reduce){#work-hours-calculator-20260716 *{transition:none!important}}
+#work-hours-calculator-20260716{max-width:100%;overflow-x:clip}
+#work-hours-calculator-20260716 .page,#work-hours-calculator-20260716 .wrap,#work-hours-calculator-20260716 .grid,#work-hours-calculator-20260716 .panel{min-width:0;max-width:100%}
+#work-hours-calculator-20260716 .page{overflow-x:hidden}
+#work-hours-calculator-20260716 input{min-width:0;max-width:100%}
+#work-hours-calculator-20260716 .result{background:#104b31;color:#fff;color-scheme:dark}
+#work-hours-calculator-20260716 .result .panel-title{color:#fff!important}
+#work-hours-calculator-20260716 .result .panel-desc{color:#d8eee1!important;opacity:1}
+#work-hours-calculator-20260716 .result .leave-label{color:#e2f6e9!important}
+#work-hours-calculator-20260716 .result .leave-time{color:#e5ff86!important;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+#work-hours-calculator-20260716 .result .result-copy{color:#f2fff7!important;opacity:1}
+#work-hours-calculator-20260716 .result .result-copy strong{color:#fff!important;font-weight:850}
+#work-hours-calculator-20260716 .result .stat{border-color:rgba(255,255,255,.24);background:#1b6543}
+#work-hours-calculator-20260716 .result .stat span{color:#dff2e6!important;font-size:11px;font-weight:700;opacity:1}
+#work-hours-calculator-20260716 .result .stat strong{color:#fff!important;font-weight:850}
+#work-hours-calculator-20260716 .cycle-picker{width:min(312px,100%)}
+#work-hours-calculator-20260716 .picker-label{display:block;margin-bottom:6px;color:var(--muted);font-size:11px;font-weight:750}
+#work-hours-calculator-20260716 .cycle-nav{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:stretch;overflow:hidden;border:1px solid #ccd8d0;border-radius:12px;background:#fff}
+#work-hours-calculator-20260716 .cycle-btn{display:grid;place-items:center;min-width:44px;min-height:48px;padding:0;border:0;background:#f0f6f2;color:var(--green);font-size:25px;font-weight:800;cursor:pointer}
+#work-hours-calculator-20260716 .cycle-btn:active{background:#dfece4}
+#work-hours-calculator-20260716 .cycle-current{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;padding:5px 8px;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center}
+#work-hours-calculator-20260716 .cycle-current strong{max-width:100%;overflow:hidden;color:var(--ink);font-size:14px;font-weight:850;line-height:1.25;text-overflow:ellipsis;white-space:nowrap}
+#work-hours-calculator-20260716 .cycle-current small{margin-top:2px;color:var(--muted);font-size:10px}
+#work-hours-calculator-20260716 .cycle-today{display:block;margin:7px 0 0 auto;padding:4px 2px;border:0;background:transparent;color:var(--green);font-size:11px;font-weight:750;cursor:pointer}
+#work-hours-calculator-20260716 .cycle-btn:focus-visible,#work-hours-calculator-20260716 .cycle-today:focus-visible{outline:3px solid rgba(47,135,96,.2);outline-offset:2px}
+@media(max-width:720px){
+#work-hours-calculator-20260716 .schedule{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 12px;padding:0;overflow:visible}
+#work-hours-calculator-20260716 .schedule-item{min-width:0;min-height:84px;padding:12px;overflow:hidden}
+#work-hours-calculator-20260716 .schedule-time{font-size:14px}
+#work-hours-calculator-20260716 .cycle-picker{width:100%}
+#work-hours-calculator-20260716 .cycle-nav{grid-template-columns:48px minmax(0,1fr) 48px}
+#work-hours-calculator-20260716 .cycle-btn{min-width:48px;min-height:50px}
+#work-hours-calculator-20260716 .cycle-current strong{font-size:15px}
+#work-hours-calculator-20260716 tr{min-width:0;overflow:hidden}
+#work-hours-calculator-20260716 td{min-width:0}
+}
+@media(max-width:390px){
+#work-hours-calculator-20260716 .schedule{grid-template-columns:1fr}
+#work-hours-calculator-20260716 .stat-grid{grid-template-columns:1fr 1fr}
+}@media(prefers-reduced-motion:reduce){#work-hours-calculator-20260716 *{transition:none!important}}
 </style>
 <div class="page"><div class="wrap">
 <section class="hero" aria-labelledby="whc-title">
@@ -120,7 +158,7 @@
 </section>
 <main class="grid">
 <section class="panel" aria-labelledby="entry-title">
-  <div class="panel-head"><div><h2 id="entry-title" class="panel-title">本周期打卡</h2><p class="panel-desc" id="rangeText">上周五至本周四</p></div><div class="date-field"><label for="cycleEnd">周期结束（周四）</label><input id="cycleEnd" type="date"></div></div>
+  <div class="panel-head"><div><h2 id="entry-title" class="panel-title">本周期打卡</h2><p class="panel-desc" id="rangeText">上周五至本周四</p></div><div class="cycle-picker" aria-label="周期选择"><span class="picker-label">周期选择</span><div class="cycle-nav"><button id="prevCycle" class="cycle-btn" type="button" aria-label="上一个周期">‹</button><div class="cycle-current"><strong id="cycleEndLabel">--</strong><small>周四结束</small></div><button id="nextCycle" class="cycle-btn" type="button" aria-label="下一个周期">›</button></div><button id="currentCycle" class="cycle-today" type="button">回到本周期</button><input id="cycleEnd" type="hidden"></div></div>
   <div class="table-wrap"><table aria-label="每日上下班时间与有效工时"><thead><tr><th>日期</th><th>计入</th><th>上班</th><th>下班</th><th>有效工时</th><th>日差额</th></tr></thead><tbody id="rows"></tbody></table></div>
   <div id="error" class="error" role="alert"></div>
   <div class="table-foot"><div class="settings"><div class="setting"><label for="dailyTarget">每日目标（小时）</label><input id="dailyTarget" type="number" value="9.2" min="0.1" max="24" step="0.1"></div><div class="setting"><label for="targetDays">目标天数</label><input id="targetDays" type="number" value="5" min="1" max="7" step="1"></div><label class="checkline" for="capStart"><input id="capStart" type="checkbox" checked>08:30 前不计工时</label></div></div>
@@ -132,7 +170,7 @@
 <script>
 (()=>{
 const root=document.getElementById('work-hours-calculator-20260716');if(!root||root.dataset.ready==='1')return;root.dataset.ready='1';
-const $=s=>root.querySelector(s),rowsHost=$('#rows'),cycleEnd=$('#cycleEnd'),dailyTarget=$('#dailyTarget'),targetDays=$('#targetDays'),capStart=$('#capStart'),error=$('#error');
+const $=s=>root.querySelector(s),rowsHost=$('#rows'),cycleEnd=$('#cycleEnd'),dailyTarget=$('#dailyTarget'),targetDays=$('#targetDays'),capStart=$('#capStart'),error=$('#error'),prevCycle=$('#prevCycle'),nextCycle=$('#nextCycle'),currentCycle=$('#currentCycle');
 const names=['周五','周六','周日','周一','周二','周三','周四'];
 const presets=[['09:00','20:12',1],['','',0],['','',0],['09:00','20:12',1],['09:00','20:12',1],['09:00','20:12',1],['09:00','',1]];
 const pad=n=>String(n).padStart(2,'0');
@@ -149,7 +187,8 @@ function signed(m){m=Math.round(m);return m===0?'刚好达标':`${m>0?'+':'−'}
 function clock(m){m=Math.round(m);const day=Math.floor(m/1440),x=((m%1440)+1440)%1440,v=`${pad(Math.floor(x/60))}:${pad(x%60)}`;return day>0?`次日 ${v}`:v}
 function solve(startValue,need,cap){let s=time(startValue);if(s===null)return null;if(cap&&s<510)s=510;if(need<=0)return s;for(let e=s;e<=s+2160;e++)if(netBetween(s,e,false)>=need)return e;return null}
 function buildRows(){rowsHost.innerHTML=names.map((name,i)=>{const [start,end,active]=presets[i],thu=i===6;return `<tr ${thu?'data-thursday':''}><td class="day">${name}${thu?'<span class="badge">补时日</span>':''}<span class="day-date" data-date>--</span></td><td><input class="toggle" data-active type="checkbox" ${active?'checked':''} aria-label="${name}工时计入周期"></td><td data-col="上班"><input data-start type="time" value="${start}" aria-label="${name}上班时间"></td><td data-col="下班"><input data-end type="time" value="${end}" aria-label="${name}下班时间"></td><td class="hours" data-col="有效工时" data-hours>--</td><td class="diff muted" data-col="日差额" data-diff>--</td></tr>`}).join('')}
-function updateDates(){if(!cycleEnd.value)return;const end=dateFrom(cycleEnd.value),start=addDays(end,-6);$('#rangeText').textContent=`${start.getFullYear()}年${start.getMonth()+1}月${start.getDate()}日 — ${end.getFullYear()}年${end.getMonth()+1}月${end.getDate()}日`;[...rowsHost.querySelectorAll('tr')].forEach((row,i)=>{const d=addDays(start,i);row.querySelector('[data-date]').textContent=`${pad(d.getMonth()+1)}.${pad(d.getDate())}`})}
+function updateDates(){if(!cycleEnd.value)return;const end=dateFrom(cycleEnd.value),start=addDays(end,-6);$('#rangeText').textContent=`${start.getFullYear()}年${start.getMonth()+1}月${start.getDate()}日 — ${end.getFullYear()}年${end.getMonth()+1}月${end.getDate()}日`;$('#cycleEndLabel').textContent=`${end.getFullYear()}年${end.getMonth()+1}月${end.getDate()}日`;[...rowsHost.querySelectorAll('tr')].forEach((row,i)=>{const d=addDays(start,i);row.querySelector('[data-date]').textContent=`${pad(d.getMonth()+1)}.${pad(d.getDate())}`})}
+function shiftCycle(weeks){const base=cycleEnd.value?dateFrom(cycleEnd.value):defaultThursday();cycleEnd.value=iso(addDays(base,weeks*7));updateDates();calculate()}
 function showErrors(items){error.textContent=items.join('；');error.classList.toggle('visible',items.length>0)}
 function calculate(){
  const dailyHours=Number(dailyTarget.value),days=Number(targetDays.value),dailyMinutes=Number.isFinite(dailyHours)?Math.round(dailyHours*60):0,goal=dailyMinutes*(Number.isFinite(days)?days:0),cap=capStart.checked,rows=[...rowsHost.querySelectorAll('tr')],messages=[];let before=0,total=0;
@@ -159,10 +198,15 @@ function calculate(){
  $('#dailyTargetDisplay').textContent=Number.isFinite(dailyHours)?String(dailyHours):'--';$('#goalTotal').textContent=duration(goal);$('#beforeThu').textContent=duration(before);$('#thuNeed').textContent=duration(need);$('#actualTotal').textContent=duration(total);$('#meterBar').style.width=`${goal>0?Math.min(100,total/goal*100):0}%`;
  const leaveEl=$('#leaveTime'),copy=$('#resultCopy');if(!thuActive){leaveEl.textContent='--:--';copy.textContent='周四未计入本周期，请开启周四“计入”。'}else if(!thuStart){leaveEl.textContent='--:--';copy.textContent='请先填写周四的上班时间。'}else if(need<=0){leaveEl.textContent='已达标';copy.innerHTML=`周四前已累计 <strong>${duration(before)}</strong>，已满足周期目标。`}else if(leave===null){leaveEl.textContent='超出范围';copy.textContent='当前缺口过大，请检查前几天的打卡时间或目标设置。'}else{leaveEl.textContent=clock(leave);const shown=cap&&time(thuStart)<510?'08:30（按规则修正）':thuStart;copy.innerHTML=`周四从 <strong>${shown}</strong> 开始，需完成 <strong>${duration(need)}</strong> 有效工时。`;if(thuEnd){const actual=workMinutes(thuStart,thuEnd,cap)||0,remain=need-actual;copy.innerHTML+=remain>0?` 当前填写的下班时间还差 <strong>${duration(remain)}</strong>。`:' 当前填写的下班时间已满足目标。'}}showErrors(messages)
 }
-buildRows();cycleEnd.value=iso(defaultThursday());updateDates();root.addEventListener('input',e=>{if(e.target===cycleEnd)updateDates();calculate()});root.addEventListener('change',e=>{if(e.target===cycleEnd)updateDates();calculate()});calculate();
+buildRows();cycleEnd.value=iso(defaultThursday());updateDates();prevCycle.addEventListener('click',()=>shiftCycle(-1));nextCycle.addEventListener('click',()=>shiftCycle(1));currentCycle.addEventListener('click',()=>{cycleEnd.value=iso(defaultThursday());updateDates();calculate()});root.addEventListener('input',e=>{if(e.target===cycleEnd)updateDates();calculate()});root.addEventListener('change',e=>{if(e.target===cycleEnd)updateDates();calculate()});calculate();
 })();
 </script>
 </div>
+
+
+
+
+
 
 
 </body></html>
