@@ -185,7 +185,7 @@ function workMinutes(startValue,endValue,cap){let s=time(startValue),e=time(endV
 function duration(m,compact=false){m=Math.max(0,Math.round(m));const h=Math.floor(m/60),n=m%60;return compact?`${h}h${pad(n)}m`:(n?`${h}小时${n}分`:`${h}小时`)}
 function signed(m){m=Math.round(m);return m===0?'刚好达标':`${m>0?'+':'−'}${duration(Math.abs(m),true)}`}
 function clock(m){m=Math.round(m);const day=Math.floor(m/1440),x=((m%1440)+1440)%1440,v=`${pad(Math.floor(x/60))}:${pad(x%60)}`;return day>0?`次日 ${v}`:v}
-function solve(startValue,need,cap){let s=time(startValue);if(s===null)return null;if(cap&&s<510)s=510;if(need<=0)return s;for(let e=s;e<=s+2160;e++)if(netBetween(s,e,false)>=need)return e;return null}
+function solve(startValue,need,cap){let s=time(startValue);if(s===null)return null;if(cap&&s<510)s=510;if(need<=0)return s;let low=s,high=s+2160;if(netBetween(s,high,false)<need)return null;while(low<high){const mid=Math.floor((low+high)/2);if(netBetween(s,mid,false)>=need)high=mid;else low=mid+1}return low}
 function buildRows(){rowsHost.innerHTML=names.map((name,i)=>{const [start,end,active]=presets[i],thu=i===6;return `<tr ${thu?'data-thursday':''}><td class="day">${name}${thu?'<span class="badge">补时日</span>':''}<span class="day-date" data-date>--</span></td><td><input class="toggle" data-active type="checkbox" ${active?'checked':''} aria-label="${name}工时计入周期"></td><td data-col="上班"><input data-start type="time" value="${start}" aria-label="${name}上班时间"></td><td data-col="下班"><input data-end type="time" value="${end}" aria-label="${name}下班时间"></td><td class="hours" data-col="有效工时" data-hours>--</td><td class="diff muted" data-col="日差额" data-diff>--</td></tr>`}).join('')}
 function updateDates(){if(!cycleEnd.value)return;const end=dateFrom(cycleEnd.value),start=addDays(end,-6);$('#rangeText').textContent=`${start.getFullYear()}年${start.getMonth()+1}月${start.getDate()}日 — ${end.getFullYear()}年${end.getMonth()+1}月${end.getDate()}日`;$('#cycleEndLabel').textContent=`${end.getFullYear()}年${end.getMonth()+1}月${end.getDate()}日`;[...rowsHost.querySelectorAll('tr')].forEach((row,i)=>{const d=addDays(start,i);row.querySelector('[data-date]').textContent=`${pad(d.getMonth()+1)}.${pad(d.getDate())}`})}
 function shiftCycle(weeks){const base=cycleEnd.value?dateFrom(cycleEnd.value):defaultThursday();cycleEnd.value=iso(addDays(base,weeks*7));updateDates();calculate()}
@@ -202,11 +202,5 @@ buildRows();cycleEnd.value=iso(defaultThursday());updateDates();prevCycle.addEve
 })();
 </script>
 </div>
-
-
-
-
-
-
 
 </body></html>
