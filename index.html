@@ -53,6 +53,17 @@
 #work-hours-calculator-20260716 .month-required{margin-top:12px;padding:12px;border:1px solid rgba(255,255,255,.24);border-radius:12px;background:rgba(255,255,255,.08)}
 #work-hours-calculator-20260716 .month-required span{display:block;color:#dff2e6;font-size:11px}
 #work-hours-calculator-20260716 .month-required strong{display:block;margin-top:5px;color:#fff;font-size:22px;font-weight:850;font-variant-numeric:tabular-nums}
+#work-hours-calculator-20260716 .month-tail-section{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+#work-hours-calculator-20260716 .month-tail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+#work-hours-calculator-20260716 .month-tail-head strong{font-size:13px}
+#work-hours-calculator-20260716 .month-tail-head span{color:var(--muted);font-size:11px}
+#work-hours-calculator-20260716 .month-tail-rows{display:grid;gap:8px}
+#work-hours-calculator-20260716 .month-tail-row{display:grid;grid-template-columns:minmax(130px,1fr) minmax(120px,.7fr);gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--soft)}
+#work-hours-calculator-20260716 .month-tail-day{display:flex;align-items:center;gap:8px;color:var(--ink);font-size:12px;font-weight:750}
+#work-hours-calculator-20260716 .month-tail-day input{width:18px;height:18px;min-height:18px;accent-color:var(--green)}
+#work-hours-calculator-20260716 .month-tail-hours{display:flex;align-items:center;gap:7px}
+#work-hours-calculator-20260716 .month-tail-hours input{width:100%;min-height:42px}
+#work-hours-calculator-20260716 .month-tail-hours span{color:var(--muted);font-size:11px;white-space:nowrap}
 @media(max-width:900px){
 #work-hours-calculator-20260716 .hero,#work-hours-calculator-20260716 .grid{grid-template-columns:1fr}
 #work-hours-calculator-20260716 .side{position:static}
@@ -105,6 +116,7 @@
 #work-hours-calculator-20260716 .stat{padding:11px}
 #work-hours-calculator-20260716 .breakdown{padding:18px}
 }
+#work-hours-calculator-20260716 .month-tail-row{grid-template-columns:1fr}
 @media(max-width:390px){
 #work-hours-calculator-20260716 .target-card{grid-template-columns:1fr}
 #work-hours-calculator-20260716 .conversion{max-width:none;text-align:left}
@@ -211,7 +223,7 @@
   <div class="table-foot"><div class="settings"><div class="setting"><label for="dailyTarget">每日目标（小时）</label><input id="dailyTarget" type="number" value="9.2" min="0.1" max="24" step="0.1"></div><div class="setting"><label for="targetDays">目标天数</label><input id="targetDays" type="number" value="5" min="1" max="7" step="1"></div><label class="checkline" for="capStart"><input id="capStart" type="checkbox" checked>08:30 前不计工时</label></div></div>
 </section>
 <aside class="side" aria-label="计算结果">
-  <section class="panel result" aria-live="polite"><h2 class="panel-title">周四建议下班</h2><p class="panel-desc">根据周四之前的累计工时自动补齐</p><div class="leave-label">建议打卡时间</div><div id="leaveTime" class="leave-time">--:--</div><div id="resultCopy" class="result-copy">请先填写周四的上班时间。</div><div class="meter" aria-hidden="true"><div id="meterBar" class="meter-bar"></div></div><div class="stat-grid"><div class="stat"><span>周期目标</span><strong id="goalTotal">46小时</strong></div><div class="stat"><span>周四前累计</span><strong id="beforeThu">0小时</strong></div><div class="stat"><span>周四需完成</span><strong id="thuNeed">46小时</strong></div><div class="stat"><span>已填总工时</span><strong id="actualTotal">0小时</strong></div></div></section>
+  <section class="panel result" aria-live="polite"><h2 class="panel-title">周四建议下班</h2><p class="panel-desc">根据周四之前的累计工时自动补齐</p><div class="leave-label">建议打卡时间</div><div id="leaveTime" class="leave-time">--:--</div><div id="resultCopy" class="result-copy">请先填写周四的上班时间。</div><div class="meter" aria-hidden="true"><div id="meterBar" class="meter-bar"></div></div><div class="stat-grid"><div class="stat"><span>周期目标</span><strong id="goalTotal">46小时</strong></div><div class="stat"><span>周四前累计</span><strong id="beforeThu">0小时</strong></div><div class="stat"><span>周四需完成</span><strong id="thuNeed">46小时</strong></div><div class="stat"><span>实际已填工时</span><strong id="actualTotal">0小时</strong></div><div class="stat"><span>计算后预计总工时</span><strong id="projectedTotal">0小时</strong></div></div></section>
   <section class="panel breakdown"><h2 class="panel-title">计算口径</h2><ul class="break-list"><li><span>午餐扣除</span><strong>12:30—14:00</strong></li><li><span>晚餐扣除</span><strong>18:00—18:30</strong></li><li><span>默认工作日</span><strong>周五、周一至周四</strong></li><li><span>周末工时</span><strong>开启“计入”后累计</strong></li></ul><div class="note">结果按连续打卡时段估算。若公司还有迟到、加班审批、调休或特殊扣时规则，请以考勤系统为准。</div></section>
 </aside></main>
 </div>
@@ -248,11 +260,20 @@
             <input id="monthDailyTarget" type="number" value="9.2" min="0.1" max="24" step="0.1">
             <span class="field-note">9.2 小时等于 9 小时 12 分钟。</span>
           </div>
+          <div>
+            <label for="monthRemainingDays">月底剩余工作日</label>
+            <input id="monthRemainingDays" type="number" min="0" max="31" step="1">
+            <span class="field-note">自动统计组长截止日之后到月底的工作日，可按节假日调整。</span>
+          </div>
           <div class="linked-week">
-            <span>自动读取周工时</span>
+            <span>月底剩余工时</span>
             <strong id="linkedWeekHours">0小时</strong>
             <small id="linkedWeekRange">请先填写周工时打卡</small>
           </div>
+        </div>
+        <div id="monthTailSection" class="month-tail-section" hidden>
+          <div class="month-tail-head"><strong>月底其他日期</strong><span>填写预计或实际有效工时</span></div>
+          <div id="monthTailRows" class="month-tail-rows"></div>
         </div>
       </div>
     </section>
@@ -265,11 +286,11 @@
       <div class="meter" aria-hidden="true"><div id="monthMeterBar" class="meter-bar"></div></div>
       <div class="stat-grid">
         <div class="stat"><span>原累计工时</span><strong id="monthOriginalTotal">0小时</strong></div>
-        <div class="stat"><span>本周实际工时</span><strong id="monthWeekTotal">0小时</strong></div>
+        <div class="stat"><span>月底剩余工时</span><strong id="monthWeekTotal">0小时</strong></div>
         <div class="stat"><span>合并累计工时</span><strong id="monthCombinedTotal">0小时</strong></div>
         <div class="stat"><span>合并工作日</span><strong id="monthDaysDisplay">0天</strong></div>
       </div>
-      <div class="month-required"><span>要达到公司标准，本周应完成</span><strong id="monthRequiredWeek">0小时</strong></div>
+      <div class="month-required"><span>要达到公司标准，月底剩余日期应完成</span><strong id="monthRequiredWeek">0小时</strong></div>
     </aside>
   </div>
 </section>
@@ -277,7 +298,7 @@
 <script>
 (()=>{
 const root=document.getElementById('work-hours-calculator-20260716');if(!root||root.dataset.ready==='1')return;root.dataset.ready='1';
-const $=s=>root.querySelector(s),rowsHost=$('#rows'),cycleEnd=$('#cycleEnd'),dailyTarget=$('#dailyTarget'),targetDays=$('#targetDays'),capStart=$('#capStart'),error=$('#error'),prevCycle=$('#prevCycle'),nextCycle=$('#nextCycle'),currentCycle=$('#currentCycle'),weeklyTab=$('#weeklyTab'),monthlyTab=$('#monthlyTab'),weeklyView=$('#weeklyView'),monthlyView=$('#monthlyView'),monthCutoff=$('#monthCutoff'),monthPrev=$('#monthPrev'),monthNext=$('#monthNext'),monthCurrent=$('#monthCurrent'),monthWorkdays=$('#monthWorkdays'),monthDailyTarget=$('#monthDailyTarget'),reportedAverage=$('#reportedAverage');
+const $=s=>root.querySelector(s),rowsHost=$('#rows'),cycleEnd=$('#cycleEnd'),dailyTarget=$('#dailyTarget'),targetDays=$('#targetDays'),capStart=$('#capStart'),error=$('#error'),prevCycle=$('#prevCycle'),nextCycle=$('#nextCycle'),currentCycle=$('#currentCycle'),weeklyTab=$('#weeklyTab'),monthlyTab=$('#monthlyTab'),weeklyView=$('#weeklyView'),monthlyView=$('#monthlyView'),monthCutoff=$('#monthCutoff'),monthPrev=$('#monthPrev'),monthNext=$('#monthNext'),monthCurrent=$('#monthCurrent'),monthWorkdays=$('#monthWorkdays'),monthRemainingDays=$('#monthRemainingDays'),monthDailyTarget=$('#monthDailyTarget'),reportedAverage=$('#reportedAverage'),monthTailSection=$('#monthTailSection'),monthTailRows=$('#monthTailRows');
 const names=['周五','周六','周日','周一','周二','周三','周四'];
 const presets=[['09:00','20:12',1],['','',0],['','',0],['09:00','20:12',1],['09:00','20:12',1],['09:00','20:12',1],['09:00','',1]];
 const pad=n=>String(n).padStart(2,'0');
@@ -295,16 +316,21 @@ function clock(m){m=Math.round(m);const day=Math.floor(m/1440),x=((m%1440)+1440)
 function solve(startValue,need,cap){let s=time(startValue);if(s===null)return null;if(cap&&s<510)s=510;if(need<=0)return s;let low=s,high=s+2160;if(netBetween(s,high,false)<need)return null;while(low<high){const mid=Math.floor((low+high)/2);if(netBetween(s,mid,false)>=need)high=mid;else low=mid+1}return low}
 function buildRows(){rowsHost.innerHTML=names.map((name,i)=>{const [start,end,active]=presets[i],thu=i===6;return `<tr ${thu?'data-thursday':''}><td class="day">${name}${thu?'<span class="badge">补时日</span>':''}<span class="day-date" data-date>--</span></td><td><input class="toggle" data-active type="checkbox" ${active?'checked':''} aria-label="${name}工时计入周期"></td><td data-col="上班"><input data-start type="time" value="${start}" aria-label="${name}上班时间"></td><td data-col="下班"><input data-end type="time" value="${end}" aria-label="${name}下班时间"></td><td class="hours" data-col="有效工时" data-hours>--</td><td class="diff muted" data-col="日差额" data-diff>--</td></tr>`}).join('')}
 function updateDates(){if(!cycleEnd.value)return;const end=dateFrom(cycleEnd.value),start=addDays(end,-6);$('#rangeText').textContent=`${start.getFullYear()}年${start.getMonth()+1}月${start.getDate()}日 — ${end.getFullYear()}年${end.getMonth()+1}月${end.getDate()}日`;$('#cycleEndLabel').textContent=`${end.getFullYear()}年${end.getMonth()+1}月${end.getDate()}日`;[...rowsHost.querySelectorAll('tr')].forEach((row,i)=>{const d=addDays(start,i);row.querySelector('[data-date]').textContent=`${pad(d.getMonth()+1)}.${pad(d.getDate())}`})}
-function weeklyActualMinutes(){const cap=capStart.checked;return [...rowsHost.querySelectorAll('tr')].reduce((sum,row)=>{if(!row.querySelector('[data-active]').checked)return sum;const mins=workMinutes(row.querySelector('[data-start]').value,row.querySelector('[data-end]').value,cap);return sum+(mins===null?0:mins)},0)}
-function weeklyHasMissingEntries(){return [...rowsHost.querySelectorAll('tr')].some(row=>row.querySelector('[data-active]').checked&&(!row.querySelector('[data-start]').value||!row.querySelector('[data-end]').value))}
+function weeklySnapshot(){const cap=capStart.checked,dailyMinutes=Math.round((Number(dailyTarget.value)||0)*60),goal=dailyMinutes*(Number(targetDays.value)||0),rows=[...rowsHost.querySelectorAll('tr')];let actual=0,before=0;const dayMinutes=rows.map((row,i)=>{if(!row.querySelector('[data-active]').checked)return 0;const mins=workMinutes(row.querySelector('[data-start]').value,row.querySelector('[data-end]').value,cap);if(mins===null)return 0;actual+=mins;if(i<6)before+=mins;return mins}),need=Math.max(0,goal-before),thu=rows[6],thuProjected=thu.querySelector('[data-active]').checked&&thu.querySelector('[data-start]').value&&!thu.querySelector('[data-end]').value;if(thuProjected)dayMinutes[6]=need;return{actual,before,need,dayMinutes,projected:dayMinutes.reduce((sum,value)=>sum+value,0),thuProjected,rows}}
+function weeklyActualMinutes(){return weeklySnapshot().actual}
+function weeklyHasMissingEntries(){return [...rowsHost.querySelectorAll('tr')].some((row,i)=>row.querySelector('[data-active]').checked&&(!row.querySelector('[data-start]').value||(!row.querySelector('[data-end]').value&&i!==6)))}
 function isWeekday(date){const day=date.getDay();return day>=1&&day<=5}
-function monthWorkdayCount(cutoff){const first=new Date(cutoff.getFullYear(),cutoff.getMonth(),1);let count=0;for(let date=new Date(first);date<=cutoff;date=addDays(date,1))if(isWeekday(date))count++;return count}
-function updateMonthDates(){if(!monthCutoff.value)return;const cutoff=dateFrom(monthCutoff.value),first=new Date(cutoff.getFullYear(),cutoff.getMonth(),1),weekStart=addDays(cutoff,1),weekEnd=addDays(cutoff,7);$('#monthRangeText').textContent=`${first.getFullYear()}年${first.getMonth()+1}月${first.getDate()}日—${cutoff.getMonth()+1}月${cutoff.getDate()}日的月均，加上${weekStart.getMonth()+1}月${weekStart.getDate()}日—${weekEnd.getMonth()+1}月${weekEnd.getDate()}日的周工时`;$('#monthCutoffLabel').textContent=`${cutoff.getFullYear()}年${cutoff.getMonth()+1}月${cutoff.getDate()}日`;$('#linkedWeekRange').textContent=`自动读取 ${weekStart.getMonth()+1}月${weekStart.getDate()}日—${weekEnd.getMonth()+1}月${weekEnd.getDate()}日`}
-function setMonthCutoff(date,resetDays=true){monthCutoff.value=iso(date);if(resetDays)monthWorkdays.value=monthWorkdayCount(date);cycleEnd.value=iso(addDays(date,7));updateDates();updateMonthDates();calculate();calculateMonth()}
-function setWeekEnd(date){cycleEnd.value=iso(date);const cutoff=addDays(date,-7);monthCutoff.value=iso(cutoff);monthWorkdays.value=monthWorkdayCount(cutoff);updateDates();updateMonthDates();calculate();calculateMonth()}
+function countWeekdays(start,end){let count=0;for(let date=new Date(start);date<=end;date=addDays(date,1))if(isWeekday(date))count++;return count}
+function monthWorkdayCount(cutoff){return countWeekdays(new Date(cutoff.getFullYear(),cutoff.getMonth(),1),cutoff)}
+function monthEndDate(cutoff){return new Date(cutoff.getFullYear(),cutoff.getMonth()+1,0)}
+function buildMonthTailRows(){if(!monthCutoff.value)return;const cutoff=dateFrom(monthCutoff.value),start=addDays(cutoff,8),end=monthEndDate(cutoff),target=Math.max(0,Number(monthDailyTarget.value)||9.2),weekdayNames=['周日','周一','周二','周三','周四','周五','周六'];if(start>end){monthTailRows.innerHTML='';monthTailSection.hidden=true;return}const items=[];for(let date=new Date(start);date<=end;date=addDays(date,1)){const weekday=isWeekday(date);items.push(`<div class="month-tail-row" data-tail-date="${iso(date)}"><label class="month-tail-day"><input data-tail-active type="checkbox" ${weekday?'checked':''}>${date.getMonth()+1}月${date.getDate()}日 ${weekdayNames[date.getDay()]}</label><div class="month-tail-hours"><input data-tail-hours type="number" min="0" max="24" step="0.01" value="${weekday?target:0}" inputmode="decimal" aria-label="${date.getMonth()+1}月${date.getDate()}日有效工时"><span>小时</span></div></div>`) }monthTailRows.innerHTML=items.join('');monthTailSection.hidden=false}
+function updateMonthDates(){if(!monthCutoff.value)return;const cutoff=dateFrom(monthCutoff.value),first=new Date(cutoff.getFullYear(),cutoff.getMonth(),1),monthEnd=monthEndDate(cutoff),weekStart=addDays(cutoff,1),linkedEnd=new Date(Math.min(addDays(cutoff,7).getTime(),monthEnd.getTime()));$('#monthRangeText').textContent=`${first.getFullYear()}年${first.getMonth()+1}月${first.getDate()}日—${cutoff.getMonth()+1}月${cutoff.getDate()}日的月均，加上截止月底的剩余工时`;$('#monthCutoffLabel').textContent=`${cutoff.getFullYear()}年${cutoff.getMonth()+1}月${cutoff.getDate()}日`;$('#linkedWeekRange').textContent=weekStart<=monthEnd?`周工时读取 ${weekStart.getMonth()+1}月${weekStart.getDate()}日—${linkedEnd.getMonth()+1}月${linkedEnd.getDate()}日，其他日期在下方补充`:'所选周四之后本月没有剩余日期'}
+function setMonthCutoff(date,resetDays=true){monthCutoff.value=iso(date);if(resetDays){monthWorkdays.value=monthWorkdayCount(date);monthRemainingDays.value=countWeekdays(addDays(date,1),monthEndDate(date))}cycleEnd.value=iso(addDays(date,7));updateDates();updateMonthDates();buildMonthTailRows();calculate();calculateMonth()}
+function setWeekEnd(date){cycleEnd.value=iso(date);const cutoff=addDays(date,-7);monthCutoff.value=iso(cutoff);monthWorkdays.value=monthWorkdayCount(cutoff);monthRemainingDays.value=countWeekdays(addDays(cutoff,1),monthEndDate(cutoff));updateDates();updateMonthDates();buildMonthTailRows();calculate();calculateMonth()}
 function shiftCycle(weeks){const base=cycleEnd.value?dateFrom(cycleEnd.value):defaultThursday();setWeekEnd(addDays(base,weeks*7))}
 function shiftMonthCutoff(weeks){const base=monthCutoff.value?dateFrom(monthCutoff.value):addDays(defaultThursday(),-7);setMonthCutoff(addDays(base,weeks*7))}
-function calculateMonth(){const previousDays=Math.max(0,Number(monthWorkdays.value)||0),averageHours=Math.max(0,Number(reportedAverage.value)||0),weekDays=Math.max(0,Number(targetDays.value)||0),standardHours=Math.max(0,Number(monthDailyTarget.value)||0),originalTotal=Math.round(previousDays*averageHours*60),weekTotal=weeklyActualMinutes(),combinedTotal=originalTotal+weekTotal,totalDays=previousDays+weekDays,combinedAverage=totalDays?combinedTotal/60/totalDays:0,expectedTotal=Math.round(totalDays*standardHours*60),delta=combinedTotal-expectedTotal,requiredWeek=Math.max(0,expectedTotal-originalTotal),progress=standardHours?combinedAverage/standardHours*100:0;$('#linkedWeekHours').textContent=duration(weekTotal);$('#monthOriginalTotal').textContent=duration(originalTotal);$('#monthWeekTotal').textContent=duration(weekTotal);$('#monthCombinedTotal').textContent=duration(combinedTotal);$('#monthDaysDisplay').textContent=`${totalDays}天`;$('#monthRequiredWeek').textContent=duration(requiredWeek);$('#monthMeterBar').style.width=`${Math.min(100,Math.max(0,progress))}%`;const status=$('#monthStatus'),copy=$('#monthStatusCopy'),missing=weeklyHasMissingEntries();if(!previousDays||!totalDays){status.textContent='--';copy.textContent='请填写组长给出的月均工时和原统计工作日。'}else{status.textContent=`${combinedAverage.toFixed(2)} 小时/天`;copy.textContent=delta>=0?`达到 ${standardHours} 小时标准，累计超出 ${duration(delta)}。`:`尚未达到 ${standardHours} 小时标准，累计还差 ${duration(-delta)}。`;if(missing)copy.textContent+=' 当前周工时仍有未填写的打卡。'}}
+function monthRemainderMinutes(snapshot){if(!monthCutoff.value)return{total:0,linked:0,tail:0,missing:false};const cutoff=dateFrom(monthCutoff.value),end=monthEndDate(cutoff);let linked=0,missing=false;snapshot.dayMinutes.forEach((mins,i)=>{const date=addDays(cutoff,i+1);if(date>end)return;linked+=mins;const row=snapshot.rows[i];if(row.querySelector('[data-active]').checked&&!mins&&(!row.querySelector('[data-start]').value||!row.querySelector('[data-end]').value)&&!(i===6&&snapshot.thuProjected))missing=true});let tail=0;[...monthTailRows.querySelectorAll('[data-tail-date]')].forEach(row=>{const active=row.querySelector('[data-tail-active]').checked,input=row.querySelector('[data-tail-hours]');input.disabled=!active;if(active){const value=Math.max(0,Number(input.value)||0);tail+=Math.round(value*60);if(!input.value)missing=true}});return{total:linked+tail,linked,tail,missing}}
+function calculateMonth(){const snapshot=weeklySnapshot(),remainder=monthRemainderMinutes(snapshot),previousDays=Math.max(0,Number(monthWorkdays.value)||0),remainingDays=Math.max(0,Number(monthRemainingDays.value)||0),averageHours=Math.max(0,Number(reportedAverage.value)||0),standardHours=Math.max(0,Number(monthDailyTarget.value)||0),originalTotal=Math.round(previousDays*averageHours*60),combinedTotal=originalTotal+remainder.total,totalDays=previousDays+remainingDays,combinedAverage=totalDays?combinedTotal/60/totalDays:0,expectedTotal=Math.round(totalDays*standardHours*60),delta=combinedTotal-expectedTotal,requiredRemainder=Math.max(0,expectedTotal-originalTotal),progress=standardHours?combinedAverage/standardHours*100:0;$('#linkedWeekHours').textContent=duration(remainder.total);$('#monthOriginalTotal').textContent=duration(originalTotal);$('#monthWeekTotal').textContent=duration(remainder.total);$('#monthCombinedTotal').textContent=duration(combinedTotal);$('#monthDaysDisplay').textContent=`${totalDays}天`;$('#monthRequiredWeek').textContent=duration(requiredRemainder);$('#monthMeterBar').style.width=`${Math.min(100,Math.max(0,progress))}%`;const status=$('#monthStatus'),copy=$('#monthStatusCopy');if(!previousDays||!totalDays){status.textContent='--';copy.textContent='请填写组长给出的月均工时和统计工作日。'}else{status.textContent=`${combinedAverage.toFixed(2)} 小时/天`;copy.textContent=delta>=0?`达到 ${standardHours} 小时标准，完整月累计超出 ${duration(delta)}。`:`尚未达到 ${standardHours} 小时标准，完整月累计还差 ${duration(-delta)}。`;if(remainder.missing||weeklyHasMissingEntries())copy.textContent+=' 仍有日期未填写，当前结果属于预计值。'}}
 function setView(monthly){weeklyView.hidden=monthly;monthlyView.hidden=!monthly;weeklyTab.setAttribute('aria-selected',String(!monthly));monthlyTab.setAttribute('aria-selected',String(monthly))}
 function showErrors(items){error.textContent=items.join('；');error.classList.toggle('visible',items.length>0)}
 function calculate(){
@@ -312,12 +338,13 @@ function calculate(){
  if(dailyMinutes<=0)messages.push('每日目标必须大于 0');if(days<1||days>7)messages.push('目标天数应为 1—7 天');if(cycleEnd.value&&dateFrom(cycleEnd.value).getDay()!==4)messages.push('周期结束日期不是周四，仍按所选日期向前计算 7 天');
  rows.forEach((row,i)=>{const active=row.querySelector('[data-active]').checked,start=row.querySelector('[data-start]'),end=row.querySelector('[data-end]'),hours=row.querySelector('[data-hours]'),diff=row.querySelector('[data-diff]'),weekend=i===1||i===2;start.disabled=!active;end.disabled=!active;if(!active){hours.textContent='不计入';diff.textContent=weekend?'休息日':'--';diff.className='diff muted';return}const mins=workMinutes(start.value,end.value,cap);if(mins===null){hours.textContent=i===6&&start.value?'待补齐':'--';diff.textContent=weekend?'周末':'--';diff.className='diff muted';return}total+=mins;if(i<6)before+=mins;hours.textContent=duration(mins,true);const delta=mins-dailyMinutes;diff.textContent=weekend?'额外计入':signed(delta);diff.className=`diff ${weekend||delta>=0?'positive':'negative'}`});
  const thu=rows[6],thuActive=thu.querySelector('[data-active]').checked,thuStart=thu.querySelector('[data-start]').value,thuEnd=thu.querySelector('[data-end]').value,need=Math.max(0,goal-before),leave=thuActive&&thuStart?solve(thuStart,need,cap):null;
- $('#dailyTargetDisplay').textContent=Number.isFinite(dailyHours)?String(dailyHours):'--';$('#goalTotal').textContent=duration(goal);$('#beforeThu').textContent=duration(before);$('#thuNeed').textContent=duration(need);$('#actualTotal').textContent=duration(total);$('#meterBar').style.width=`${goal>0?Math.min(100,total/goal*100):0}%`;
+ const projectedTotal=thuActive&&thuStart&&!thuEnd?total+need:total;$('#dailyTargetDisplay').textContent=Number.isFinite(dailyHours)?String(dailyHours):'--';$('#goalTotal').textContent=duration(goal);$('#beforeThu').textContent=duration(before);$('#thuNeed').textContent=duration(need);$('#actualTotal').textContent=duration(total);$('#projectedTotal').textContent=duration(projectedTotal);$('#meterBar').style.width=`${goal>0?Math.min(100,total/goal*100):0}%`;
  const leaveEl=$('#leaveTime'),copy=$('#resultCopy');if(!thuActive){leaveEl.textContent='--:--';copy.textContent='周四未计入本周期，请开启周四“计入”。'}else if(!thuStart){leaveEl.textContent='--:--';copy.textContent='请先填写周四的上班时间。'}else if(need<=0){leaveEl.textContent='已达标';copy.innerHTML=`周四前已累计 <strong>${duration(before)}</strong>，已满足周期目标。`}else if(leave===null){leaveEl.textContent='超出范围';copy.textContent='当前缺口过大，请检查前几天的打卡时间或目标设置。'}else{leaveEl.textContent=clock(leave);const shown=cap&&time(thuStart)<510?'08:30（按规则修正）':thuStart;copy.innerHTML=`周四从 <strong>${shown}</strong> 开始，需完成 <strong>${duration(need)}</strong> 有效工时。`;if(thuEnd){const actual=workMinutes(thuStart,thuEnd,cap)||0,remain=need-actual;copy.innerHTML+=remain>0?` 当前填写的下班时间还差 <strong>${duration(remain)}</strong>。`:' 当前填写的下班时间已满足目标。'}}showErrors(messages)
 }
 buildRows();const initialThursday=defaultThursday();setMonthCutoff(addDays(initialThursday,-7));prevCycle.addEventListener('click',()=>shiftCycle(-1));nextCycle.addEventListener('click',()=>shiftCycle(1));currentCycle.addEventListener('click',()=>setWeekEnd(defaultThursday()));monthPrev.addEventListener('click',()=>shiftMonthCutoff(-1));monthNext.addEventListener('click',()=>shiftMonthCutoff(1));monthCurrent.addEventListener('click',()=>setMonthCutoff(addDays(defaultThursday(),-7)));weeklyTab.addEventListener('click',()=>setView(false));monthlyTab.addEventListener('click',()=>setView(true));root.addEventListener('input',()=>{calculate();calculateMonth()});root.addEventListener('change',()=>{calculate();calculateMonth()});calculate();calculateMonth();
 })();
 </script>
 </div>
+
 
 </body></html>
